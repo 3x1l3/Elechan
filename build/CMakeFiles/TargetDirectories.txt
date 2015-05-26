@@ -1,0 +1,1 @@
+/home/exile/4chan/build/CMakeFiles/4chan.dir

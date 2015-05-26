@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+def96c32bcb453bb4eb2820556fba69f 4chan_valac.stamp
+a623052a21f9f155fc8e58c86e942781 src/MainWindow.c

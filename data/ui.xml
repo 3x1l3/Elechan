@@ -1,0 +1,18 @@
+<ui>
+  <popup name="ItemTool">
+    <menuitem name="Open" action="Open" />
+    <menuitem name="Quit" action="Quit" />
+    <menuitem name="Undo" action="Undo" />
+<menuitem name="Redo" action="Redo" />
+<menuitem name="New" action="New" />
+<menuitem name="Save" action="Save" />
+<menuitem name="Goto" action="Goto" />
+    </popup>
+
+  <popup name="AppMenu">
+    <menuitem action ="AutoFormat" name="AutoFormat" />
+    <menuitem action="Preferences" />
+    <separator />
+    <menuitem action="About" />
+  </popup>
+</ui>

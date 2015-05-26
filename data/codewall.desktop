@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Codewall
+GenericName=Codewall App
+Comment=Native Vala code editor for Elementary OS
+Categories=Utility;Development;TextEditor;
+MimeType=text/plain;
+Actions=Window;Document;
+Exec=codewall %U
+Icon=text-x-generic-template
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=codewall
+X-GNOME-Keywords=Vala;GTK;code;editor;text;

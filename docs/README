@@ -1,0 +1,7 @@
+# To get gtksourceview to be picked up by pkg-config you must symbolic link it to the default pkg-config search path
+# For Elementary OS Luna (Ubuntu 12.04 Precise) gtksourceview-3.0-dev.
+
+ln -s /usr/lib/x86_64-linux-gnu/pkgconfig/gtksourceview-3.0.pc /usr/lib/pkgconfig/
+
+# if you are running 32bit architecture you might just change x86_64 to i386 but this is unconfirmed.
+# will try to get this working automatically eventually.

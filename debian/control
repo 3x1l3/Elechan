@@ -1,0 +1,16 @@
+Source: codewall
+Section: x11
+Priority: extra
+Maintainer: Chad Klassen <chadklassen1@gmail.com>
+Build-Depends: cmake (>= 2.8),
+               debhelper (>= 8.0.0),
+               valac (>= 0.16),
+	       granite (>= 0.2.3.1),
+	       gtksourceview-3.0 (>= 3.4.2),
+	       gtk+-3.0 (>= 3.4.2)
+Standards-Version: 3.9.3
+
+Package: codewall
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Source code editor designed specificaly for Vala and the Elementary Operating System.
