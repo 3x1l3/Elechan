@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/exile/4chan
+CMAKE_SOURCE_DIR = /home/exile/Elechan
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/exile/4chan/build
+CMAKE_BINARY_DIR = /home/exile/Elechan/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/4chan.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/exile/4chan/build
 CMakeFiles/4chan.dir/all:
 	$(MAKE) -f CMakeFiles/4chan.dir/build.make CMakeFiles/4chan.dir/depend
 	$(MAKE) -f CMakeFiles/4chan.dir/build.make CMakeFiles/4chan.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/4chan/build/CMakeFiles  1 2
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/Elechan/build/CMakeFiles  1 2
 	@echo "Built target 4chan"
 .PHONY : CMakeFiles/4chan.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/4chan.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/4chan.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/exile/4chan/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exile/Elechan/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/4chan.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/exile/4chan/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/exile/Elechan/build/CMakeFiles 0
 .PHONY : CMakeFiles/4chan.dir/rule
 
 # Convenience name for target.

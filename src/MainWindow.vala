@@ -7,7 +7,8 @@ public class AppWindow : Gtk.Window {
 			this.destroy.connect(Gtk.main_quit); // Clicking the close button will fully terminate the program.
 			this.set_position(Gtk.WindowPosition.CENTER); // Launch the program in the center of the screen
             this.set_titlebar(this.header());
-            this.treeview();
+
+this.request();
 
 		}
 
@@ -43,6 +44,24 @@ public class AppWindow : Gtk.Window {
 	return header;
 
 }
+
+    private void request() {
+
+        Soup.Session session = new Soup.Session();
+        Soup.Message message = new Soup.Message("GET", "http://a.4cdn.org/boards.json");
+
+ 
+  /* send a sync request */
+    session.send_message (message);
+    message.response_headers.foreach ((name, val) => {
+        stdout.printf ("Name: %s -> Value: %s\n", name, val);
+    });
+
+    stdout.printf ("Message length: %lld\n%s\n",
+                   message.response_body.length,
+                   message.response_body.data);
+    }
+
 
     private void treeview() {
     	// The Model:

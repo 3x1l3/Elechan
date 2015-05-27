@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_C
-  "/home/exile/4chan/build/src/MainWindow.c" "/home/exile/4chan/build/CMakeFiles/4chan.dir/src/MainWindow.c.o"
+  "/home/exile/Elechan/build/src/MainWindow.c" "/home/exile/Elechan/build/CMakeFiles/4chan.dir/src/MainWindow.c.o"
   )
 SET(CMAKE_C_COMPILER_ID "GNU")
 

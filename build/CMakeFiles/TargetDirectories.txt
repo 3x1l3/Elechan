@@ -1,1 +1,1 @@
-/home/exile/4chan/build/CMakeFiles/4chan.dir
+/home/exile/Elechan/build/CMakeFiles/4chan.dir

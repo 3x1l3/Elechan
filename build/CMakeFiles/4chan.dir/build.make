@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/exile/4chan
+CMAKE_SOURCE_DIR = /home/exile/Elechan
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/exile/4chan/build
+CMAKE_BINARY_DIR = /home/exile/Elechan/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/4chan.dir/depend.make
@@ -52,24 +52,24 @@ include CMakeFiles/4chan.dir/flags.make
 src/MainWindow.c: 4chan_valac.stamp
 
 4chan_valac.stamp: ../src/MainWindow.vala
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/4chan/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/Elechan/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating src/MainWindow.c"
-	/usr/bin/valac -C -b /home/exile/4chan -d /home/exile/4chan/build --pkg=gtk+-3.0 --pkg=granite -g --save-temps /home/exile/4chan/src/MainWindow.vala
-	touch /home/exile/4chan/build/4chan_valac.stamp
+	/usr/bin/valac -C -b /home/exile/Elechan -d /home/exile/Elechan/build --pkg=gtk+-3.0 --pkg=granite --pkg=libsoup-2.4 --pkg=json-glib-1.0 -g --save-temps /home/exile/Elechan/src/MainWindow.vala
+	touch /home/exile/Elechan/build/4chan_valac.stamp
 
 CMakeFiles/4chan.dir/src/MainWindow.c.o: CMakeFiles/4chan.dir/flags.make
 CMakeFiles/4chan.dir/src/MainWindow.c.o: src/MainWindow.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/4chan/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/exile/Elechan/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/4chan.dir/src/MainWindow.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/4chan.dir/src/MainWindow.c.o   -c /home/exile/4chan/build/src/MainWindow.c
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/4chan.dir/src/MainWindow.c.o   -c /home/exile/Elechan/build/src/MainWindow.c
 
 CMakeFiles/4chan.dir/src/MainWindow.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/4chan.dir/src/MainWindow.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/exile/4chan/build/src/MainWindow.c > CMakeFiles/4chan.dir/src/MainWindow.c.i
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/exile/Elechan/build/src/MainWindow.c > CMakeFiles/4chan.dir/src/MainWindow.c.i
 
 CMakeFiles/4chan.dir/src/MainWindow.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/4chan.dir/src/MainWindow.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/exile/4chan/build/src/MainWindow.c -o CMakeFiles/4chan.dir/src/MainWindow.c.s
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/exile/Elechan/build/src/MainWindow.c -o CMakeFiles/4chan.dir/src/MainWindow.c.s
 
 CMakeFiles/4chan.dir/src/MainWindow.c.o.requires:
 .PHONY : CMakeFiles/4chan.dir/src/MainWindow.c.o.requires
@@ -106,6 +106,6 @@ CMakeFiles/4chan.dir/clean:
 
 CMakeFiles/4chan.dir/depend: src/MainWindow.c
 CMakeFiles/4chan.dir/depend: 4chan_valac.stamp
-	cd /home/exile/4chan/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/exile/4chan /home/exile/4chan /home/exile/4chan/build /home/exile/4chan/build /home/exile/4chan/build/CMakeFiles/4chan.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/exile/Elechan/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/exile/Elechan /home/exile/Elechan /home/exile/Elechan/build /home/exile/Elechan/build /home/exile/Elechan/build/CMakeFiles/4chan.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/4chan.dir/depend
 

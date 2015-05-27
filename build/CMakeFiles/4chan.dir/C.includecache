@@ -6,19 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/exile/4chan/build/src/MainWindow.c
+/home/exile/Elechan/build/src/MainWindow.c
 glib.h
 -
 glib-object.h
 -
-granite.h
--
 gtk/gtk.h
 -
-gio/gio.h
+libsoup/soup.h
 -
 stdlib.h
 -
 string.h
+-
+stdio.h
 -
 

@@ -15,7 +15,8 @@ set (VERSION_INFO "Initial Development")
 # we're about to use pkgconfig to make sure dependencies are installed so let's find pkgconfig first
 find_package(PkgConfig)
 # now let's actually check for the required dependencies
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite libsoup-2.4)
+
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES})
 link_directories(${DEPS_LIBRARY_DIRS})
@@ -24,7 +25,7 @@ find_package(Vala REQUIRED)
 # make sure we use vala
 include(ValaVersion)
 # make sure it's the desired version of vala
-ensure_vala_version("0.16" MINIMUM)
+ensure_vala_version("0.26" MINIMUM)
 # files we want to compile
 include(ValaPrecompile)
 vala_precompile(VALA_C ${EXEC_NAME}
@@ -34,6 +35,8 @@ src/MainWindow.vala
 PACKAGES
 gtk+-3.0
 granite
+libsoup-2.4
+json-glib-1.0
 )
 # tell cmake what to call the executable we just made
 add_executable(${EXEC_NAME} ${VALA_C})
