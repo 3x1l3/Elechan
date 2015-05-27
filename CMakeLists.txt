@@ -15,7 +15,7 @@ set (VERSION_INFO "Initial Development")
 # we're about to use pkgconfig to make sure dependencies are installed so let's find pkgconfig first
 find_package(PkgConfig)
 # now let's actually check for the required dependencies
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite libsoup-2.4)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite libsoup-2.4 json-glib-1.0)
 
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES})
