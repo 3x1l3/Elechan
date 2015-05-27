@@ -189,7 +189,12 @@ public class AppWindow : Gtk.Window {
       //::Loop through each board and get the elements. 
 			foreach (var thread in threads.get_elements()) {
 
-      stdout.printf("%s\n", thread.get_object().get_array_member("posts").get_element(0).get_object().get_array_member("sub").get_element(0).get_string());
+        foreach (var post in thread.get_object().get_array_member("posts").get_elements()) {
+          var post_node = post.get_object();
+            stdout.printf("%s\n",post_node.get_string_member("com"));
+        }
+
+
 
 				//var thread_node = thread.get_object().get_array_member("posts");
 				// stdout.printf("%s\n", board_node.get_string_member("title"));
