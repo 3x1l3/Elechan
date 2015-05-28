@@ -38,9 +38,11 @@ public class AppWindow : Gtk.Window {
 		this.boardsTreeView = new Gtk.TreeView();
 		this.boardsTreeView.set_activate_on_single_click(true);
 
-		this.threadsTreeView = new Gtk.TreeView();
+
+		this.threadsTreeView = new Gtk.TreeView.with_model(this.threadsListStore);
 		
 		this.boardsScrolledWindow = new Gtk.ScrolledWindow(null,null);
+        this.boardsScrolledWindow.width_request = 200;
 		this.threadsScrolledWindow = new Gtk.ScrolledWindow(null,null);
 
 
@@ -57,7 +59,7 @@ public class AppWindow : Gtk.Window {
 		this.buildThreadsListStore("3");
 		this.populateBoardsTreeView(this.boardsListStore);
 		this.populateThreadsTreeView(this.threadsListStore);
-		this.boardsBox.pack_start(this.boardsScrolledWindow);
+		this.boardsBox.pack_start(this.boardsScrolledWindow, false, false);
 		this.boardsBox.pack_start(this.threadsScrolledWindow);
 
 		this.boardsTreeView.row_activated.connect(this.connection_rowClicked);
@@ -81,7 +83,6 @@ public class AppWindow : Gtk.Window {
     this.buildThreadsListStore((string)cell2);
     this.populateThreadsTreeView(this.threadsListStore);
     this.threadsBox.pack_start(this.threadsScrolledWindow);
-    this.threadsBox.show_all();
 	}
 
 
@@ -190,17 +191,21 @@ public class AppWindow : Gtk.Window {
 	   ----------------------------------------------------
 	 */
 
-	private Gtk.ListStore buildThreadsListStore(string board, int page = 1) {
+	private Gtk.ListStore buildThreadsListStore(string board) {
 	
-		this.threadsListStore = new Gtk.ListStore(2, typeof (string), typeof(string));
+        if (this.threadsListStore == null)
+		    this.threadsListStore = new Gtk.ListStore(2, typeof (string), typeof(string));
+
+        this.threadsListStore.clear();
 		
+        for (int i = 1; i <=10; i++ ) {
 		//create new soup session
 		Soup.Session session = new Soup.Session();
 
 		// Syncrouniously get the information from the URI
-		Soup.Message message = new Soup.Message("GET", "http://a.4cdn.org/"+ board + "/"+page.to_string()+".json");
+		Soup.Message message = new Soup.Message("GET", "http://a.4cdn.org/"+ board + "/"+i.to_string()+".json");
 		session.send_message (message);
-				Gtk.TreeIter iter;
+		Gtk.TreeIter iter;
 		try {
 
 			//::Now lets make a Json Parser and load the message from the soup GET.
@@ -231,9 +236,8 @@ public class AppWindow : Gtk.Window {
 		catch {
 			warning("Failed to retrieve posts.");
 		}
-		this.threadsListStore.append(out iter);
-				this.threadsListStore.set(iter, 0, "Testing add item", 1, "");
-warning("here after");
+}
+
 		return this.threadsListStore;
 	}
 
@@ -269,8 +273,8 @@ warning("here after");
 	private Gtk.ScrolledWindow populateThreadsTreeView(Gtk.ListStore list) {
 
 		//:: Make the board tree view using the list parameter
-		this.threadsTreeView = new Gtk.TreeView.with_model (list);
-		this.threadsScrolledWindow = new Gtk.ScrolledWindow(null,null);
+		this.threadsTreeView = new Gtk.TreeView.with_model (this.threadsListStore);
+		//this.threadsScrolledWindow = new Gtk.ScrolledWindow(null,null);
 		this.threadsScrolledWindow.add(this.threadsTreeView);
 
 
