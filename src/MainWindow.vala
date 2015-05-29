@@ -7,62 +7,93 @@ public class AppWindow : Gtk.Window {
 
 	Gtk.ListStore threadsListStore = null;
 
+	GLib.Array<Gtk.Image> thumbnails = null;
+
 	//::This layout contains the status bar/ main pane and or tools bar if needed.
 	Gtk.Box appBox;
 
 	//::Next drilldown contains a narrower main pane plus adds the tree view for the board.
-	Gtk.Box boardsBox;
+	Gtk.Paned boardsBox;
 
 	//::Narrow it down more and it has the threads on the top pane and the view on the bottom.
-	Gtk.Box threadsBox;
+	Gtk.Paned threadsBox;
+
+	Gtk.Grid thumbsGrid;
 
 	//::Boards tree view for the sidebar.
 	Gtk.TreeView boardsTreeView;
 
 	//:: Threads tree view for top bar.
 	Gtk.TreeView threadsTreeView;
-	
+
 	Gtk.ScrolledWindow boardsScrolledWindow;
 	Gtk.ScrolledWindow threadsScrolledWindow;
-	
-	
+	Gtk.ScrolledWindow thumbsScrolledWindow;
+
+	//Store current board.
+	string board = "";
 
 	public AppWindow() {         //This is the default constructor for the new window.
 
 		this.title = "4Chan Browser";         // Define the window title
-		this.set_default_size(400, 400);         // Define the intial size of the window.
+		this.set_default_size(600, 600);         // Define the intial size of the window.
 		this.destroy.connect(Gtk.main_quit);         // Clicking the close button will fully terminate the program.
 		this.set_position(Gtk.WindowPosition.CENTER);         // Launch the program in the center of the screen
 		this.set_titlebar(this.buildHeaderBar());
 
 		this.boardsTreeView = new Gtk.TreeView();
-		this.boardsTreeView.set_activate_on_single_click(true);
 
+		this.thumbsGrid = new Gtk.Grid();
 
 		this.threadsTreeView = new Gtk.TreeView.with_model(this.threadsListStore);
-		
+
 		this.boardsScrolledWindow = new Gtk.ScrolledWindow(null,null);
-        this.boardsScrolledWindow.width_request = 200;
+
 		this.threadsScrolledWindow = new Gtk.ScrolledWindow(null,null);
+		this.thumbsScrolledWindow = new Gtk.ScrolledWindow(null,null);
+
+
 
 
 		//::Define the layouts that are needed to make this possible.
 		this.appBox = new Box(Orientation.VERTICAL, 0);
-		this.boardsBox = new Box(Orientation.HORIZONTAL, 0);
-		this.threadsBox = new Box(Orientation.VERTICAL, 0);
+		this.boardsBox = new Gtk.Paned(Orientation.HORIZONTAL);
+		this.threadsBox = new Gtk.Paned(Orientation.VERTICAL);
+
+
 
 		this.add(appBox);
 		this.appBox.pack_start(this.boardsBox);
-		
+
 		//:: add the board tree view to the left side
 		this.buildBoardsListStore();
 		this.buildThreadsListStore("3");
 		this.populateBoardsTreeView(this.boardsListStore);
 		this.populateThreadsTreeView(this.threadsListStore);
-		this.boardsBox.pack_start(this.boardsScrolledWindow, false, false);
-		this.boardsBox.pack_start(this.threadsScrolledWindow);
+		this.boardsBox.add1(this.boardsScrolledWindow);
+		
 
-		this.boardsTreeView.row_activated.connect(this.connection_rowClicked);
+		
+		this.boardsScrolledWindow.set_size_request(200,-1);
+		this.threadsScrolledWindow.set_size_request(-1,200);
+
+						    this.thumbsScrolledWindow.add(this.thumbsGrid);
+
+		this.threadsBox.add1(this.threadsScrolledWindow);
+		this.threadsBox.add2(this.thumbsScrolledWindow);
+
+		
+		this.boardsBox.add2(this.threadsBox);
+		
+
+
+
+		this.thumbnails = new GLib.Array<Gtk.Image>();
+
+		this.boardsTreeView.set_activate_on_single_click(true);
+		this.threadsTreeView.set_activate_on_single_click(true);
+		this.boardsTreeView.row_activated.connect(this.connection_boardsRowClicked);
+		this.threadsTreeView.row_activated.connect(this.connection_threadsRowClicked);
 	}
 
 
@@ -71,7 +102,7 @@ public class AppWindow : Gtk.Window {
 
 	   ----------------------------------------------------
 	 */
-	private void connection_rowClicked(TreePath path, TreeViewColumn column) {
+	private void connection_boardsRowClicked(TreePath path, TreeViewColumn column) {
 		int index = int.parse(path.to_string());
 		GLib.Value cell2;
 		Gtk.TreeIter iter;
@@ -79,11 +110,26 @@ public class AppWindow : Gtk.Window {
 		boardsListStore.get_iter(out iter, path);
 		boardsListStore.get_value(iter, 1, out cell2);
 
-    
-    this.buildThreadsListStore((string)cell2);
-    this.populateThreadsTreeView(this.threadsListStore);
-    this.threadsBox.pack_start(this.threadsScrolledWindow);
+
+		this.buildThreadsListStore((string)cell2);
+		this.populateThreadsTreeView(this.threadsListStore);
+
 	}
+
+	private void connection_threadsRowClicked(TreePath path, TreeViewColumn column) {
+		int index = int.parse(path.to_string());
+		GLib.Value cell2;
+		Gtk.TreeIter iter;
+
+		threadsListStore.get_iter(out iter, path);
+		threadsListStore.get_value(iter, 1, out cell2);
+
+
+		this.buildThumbnailsArray((Json.Array)cell2);
+		//this.populateThreadsTreeView(this.threadsListStore);
+
+	}
+
 
 
 	/**
@@ -192,53 +238,94 @@ public class AppWindow : Gtk.Window {
 	 */
 
 	private Gtk.ListStore buildThreadsListStore(string board) {
-	
-        if (this.threadsListStore == null)
-		    this.threadsListStore = new Gtk.ListStore(2, typeof (string), typeof(string));
+		this.board = board;
+		if (this.threadsListStore == null) {
+			this.threadsListStore = new Gtk.ListStore(2, typeof (string), typeof(Json.Array));
+		}
 
-        this.threadsListStore.clear();
-		
-        for (int i = 1; i <=10; i++ ) {
-		//create new soup session
-		Soup.Session session = new Soup.Session();
+		this.threadsListStore.clear();
 
-		// Syncrouniously get the information from the URI
-		Soup.Message message = new Soup.Message("GET", "http://a.4cdn.org/"+ board + "/"+i.to_string()+".json");
-		session.send_message (message);
-		Gtk.TreeIter iter;
-		try {
+		for (int i = 1; i <=10; i++ ) {
+			//create new soup session
+			Soup.Session session = new Soup.Session();
 
-			//::Now lets make a Json Parser and load the message from the soup GET.
-			var parser = new Json.Parser();
-			parser.load_from_data((string) message.response_body.flatten().data, -1);
+			// Syncrouniously get the information from the URI
+			Soup.Message message = new Soup.Message("GET", "http://a.4cdn.org/"+ board + "/"+i.to_string()+".json");
+			session.send_message (message);
+			Gtk.TreeIter iter;
+			try {
 
-			//::Get the root of the JSON as an object.
-			var root_object = parser.get_root ().get_object ();
+				//::Now lets make a Json Parser and load the message from the soup GET.
+				var parser = new Json.Parser();
+				parser.load_from_data((string) message.response_body.flatten().data, -1);
 
-			//::Get the array member boards. Which is the first containing member in the array.
-			var threads = root_object.get_array_member("threads");
+				//::Get the root of the JSON as an object.
+				var root_object = parser.get_root ().get_object ();
 
-			// stdout.printf(" %s\n", boards.get_element(0).get_object().get_string_member("title"));
+				//::Get the array member boards. Which is the first containing member in the array.
+				var threads = root_object.get_array_member("threads");
 
-			//::Loop through each board and get the elements.
-			foreach (var thread in threads.get_elements()) {
-				var post_head_subject = thread.get_object().get_array_member("posts").get_element(0).get_object().get_string_member("sub");
+				// stdout.printf(" %s\n", boards.get_element(0).get_object().get_string_member("title"));
+
+				//::Loop through each board and get the elements.
+				foreach (var thread in threads.get_elements()) {
+
+					if (thread != null) {
+						var posts = thread.get_object().get_array_member("posts");
+						var post = posts.get_element(0);
+						if (post != null) {
+							var post_object = post.get_object();
+							string sub = post_object.get_string_member("sub");
+							string com = post_object.get_string_member("com");
+							string blurb = "";
+
+							if (sub == "") {
+								blurb = com;
+							}
+							else{
+								blurb = sub + " - " + com;
+							}
+
+							this.threadsListStore.append(out iter);
+							this.threadsListStore.set(iter, 0, blurb, 1, posts);
+						}
+					}
 
 
-				this.threadsListStore.append(out iter);
-				this.threadsListStore.set(iter, 0, post_head_subject, 1, "");
-
-
+				}
 
 			}
-
+			catch {
+				warning("Failed to retrieve posts.");
+			}
 		}
-		catch {
-			warning("Failed to retrieve posts.");
-		}
-}
 
 		return this.threadsListStore;
+	}
+
+	private void buildThumbnailsArray(Json.Array array) {
+
+		foreach (var post in array.get_elements()) {
+			var obj = post.get_object();
+			var tim = obj.get_int_member("tim");
+
+			if (tim != 0) {
+				var url = "http://t.4cdn.org/" + this.board + "/"+ tim.to_string() + "s.jpg";
+				this.thumbnails.append_val(new Image.from_file(url));
+			}
+		}
+
+    this.thumbsGrid = new Gtk.Grid();
+
+    for (int i=0; i < this.thumbnails.length; i++) {
+        
+      this.thumbsGrid.attach(new Gtk.Label(i.to_string()), 1, i,1,1);
+        
+    }
+    
+    this.thumbsScrolledWindow.add(this.thumbsGrid);   
+
+
 	}
 
 
