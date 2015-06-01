@@ -105,9 +105,6 @@ public class AppWindow : Gtk.Window {
 
 		this.boardsBox.add2(this.threadsBox);
 
-
-
-
 		this.thumbnails = new Gee.ArrayList<Gtk.Image>();
 
 		this.boardsTreeView.set_activate_on_single_click(true);
@@ -404,12 +401,15 @@ public class AppWindow : Gtk.Window {
                     //::This is our on click thumb event.
 						        box.button_press_event.connect( (obj, event) => {
                         var largeImgURL = "http://t.4cdn.org/" + this.board + "/"+ tim.to_string() + ext;
-								        stdout.printf("%s\n",largeImgURL);
+
                         
                         Gtk.Image fullImage = new Gtk.Image.from_pixbuf(buf);
+                        Gtk.ScrolledWindow fullImageView = new Gtk.ScrolledWindow(null,null);
+                        fullImageView.add(fullImage);
+    
+                        ViewImageWindow tmp = new ViewImageWindow(largeImgURL);
+                        tmp.show_all();
                         
-                        this.thumbsScrolledWindow.add(fullImage);
-
 								        return true;
 								}
 						        );
@@ -455,7 +455,7 @@ public class AppWindow : Gtk.Window {
 		for (int i = 0; i <= this.row+1; i++) {
 			this.thumbsGrid.remove_row(i);
 
-			stdout.printf("deleting row %i\n", i);
+			//stdout.printf("deleting row %i\n", i);
 		}
 
 		this.thumbsGrid.show_all();

@@ -30,6 +30,7 @@ ensure_vala_version("0.26" MINIMUM)
 include(ValaPrecompile)
 vala_precompile(VALA_C ${EXEC_NAME}
 src/MainWindow.vala
+src/ViewImageWindow.vala
 
 # tell what libraries to use when compiling
 PACKAGES
