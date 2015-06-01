@@ -50,6 +50,9 @@ public class AppWindow : Gtk.Window {
 		this.set_position(Gtk.WindowPosition.CENTER);         // Launch the program in the center of the screen
 		this.set_titlebar(this.buildHeaderBar());
 		this.set_events(Gdk.EventMask.BUTTON_PRESS_MASK);
+		
+		
+		
 		this.boardsTreeView = new Gtk.TreeView();
 
 		this.thumbsGrid = new Gtk.Grid();
@@ -57,6 +60,7 @@ public class AppWindow : Gtk.Window {
 		this.thumbsGrid.set_column_spacing(10);
 		this.thumbsGrid.set_margin_top(10);
 		this.thumbsGrid.set_margin_left(10);
+
 
 		this.threadsTreeView = new Gtk.TreeView.with_model(this.threadsListStore);
 
@@ -371,6 +375,7 @@ public class AppWindow : Gtk.Window {
 
 
 				var tim = obj.has_member("tim") ? obj.get_int_member("tim") : 0;
+				var ext = obj.has_member("ext") ? obj.get_string_member("ext"):"";
 				Gtk.Image image = null;
 
 
@@ -390,15 +395,29 @@ public class AppWindow : Gtk.Window {
 						        image = new Gtk.Image.from_pixbuf(buf);
 
 						        //:: Find what a right key press is
-
-						        image.button_press_event.connect( (event) => {
-
-								        warning("image clicked");
+                    Gtk.EventBox box = new Gtk.EventBox();
+                    box.add(image);
+                    
+                    
+                    
+                    
+                    //::This is our on click thumb event.
+						        box.button_press_event.connect( (obj, event) => {
+                        var largeImgURL = "http://t.4cdn.org/" + this.board + "/"+ tim.to_string() + ext;
+								        stdout.printf("%s\n",largeImgURL);
+                        
+                        Gtk.Image fullImage = new Gtk.Image.from_pixbuf(buf);
+                        
+                        this.thumbsScrolledWindow.add(fullImage);
 
 								        return true;
 								}
 						        );
-						        this.thumbsGrid.attach(image, this.column, this.row, 1,1);
+						        
+						        
+						        
+						        
+						        this.thumbsGrid.attach(box, this.column, this.row, 1,1);
 
 
 						        if (this.column > 6) {
