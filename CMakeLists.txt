@@ -7,7 +7,7 @@ list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 # where we install data directory (if we have any)
 set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 # what to call that directory where we install data too
-set (PKGDATADIR "${DATADIR}/4chan")
+set (PKGDATADIR "${DATADIR}/EleChan")
 set (EXEC_NAME "4chan")
 set (RELEASE_NAME "4Chan Browser")
 set (VERSION "0.0.1")
@@ -44,7 +44,8 @@ add_executable(${EXEC_NAME} ${VALA_C})
 # install the binaries we just made
 install (TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
 #install our .desktop file so the Applications menu will see it
-#install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/codewall.desktop DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/zoomin.png DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/zoomout.png DESTINATION ${DATADIR}/applications/)
 #install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/uncrustify.cfg DESTINATION ${PKGDATADIR})
 #install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/ui.xml DESTINATION ${PKGDATADIR})
 

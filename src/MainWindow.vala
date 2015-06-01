@@ -172,14 +172,14 @@ public class AppWindow : Gtk.Window {
 		Gtk.ToolButton button2 = new Gtk.ToolButton (img, null);
 
 		//Add Icon to header
-		header.pack_start(button2);
+		//header.pack_start(button2);
 
 		//Get another Icon.
 		img = new Gtk.Image.from_icon_name ("document-open", Gtk.IconSize.MENU);
 		Gtk.ToolButton button3 = new Gtk.ToolButton (img, null);
 
 		//Add it again
-		header.pack_start(button3);
+		//header.pack_start(button3);
 
 		//Add a search entry to the header
 		//header.pack_start(new Gtk.SearchEntry());
@@ -348,7 +348,7 @@ public class AppWindow : Gtk.Window {
 		try {
 			var parser = new Json.Parser();
 			string data = (string) message.response_body.flatten().data;
-			stdout.printf("%s\n", threadURL);
+
 			parser.load_from_data(data, -1);
 
 
