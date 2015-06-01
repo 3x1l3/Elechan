@@ -85,8 +85,8 @@ public class ViewImageWindow : Gtk.Window {
 			        newHeight = this.original.get_width()  / this.original.get_height() * 400;
 
 			        Gdk.Pixbuf buf = this.original.copy();
-			        buf = buf.scale_simple(400, newHeight,Gdk.InterpType.BILINEAR);
-			        image = new Gtk.Image.from_pixbuf(this.original);
+
+			        image = new Gtk.Image.from_pixbuf(this.resizeImage(this.original, 400,400));
 			        stdout.printf("new height %i\n", newHeight);
 			        this.viewport.add(image);
 			        this.viewport.show_all();
@@ -94,6 +94,27 @@ public class ViewImageWindow : Gtk.Window {
 			}
 		);
 
+	}
+	
+	
+	private Gdk.Pixbuf resizeImage(Gdk.Pixbuf image, int newWidth, int newHeight) {
+	  
+	  var sourceRatio = image.get_width() / image.get_height();
+	  var targetRatio = newWidth / newHeight;
+	  
+	  float scale = 0;
+	  
+	  if (sourceRatio < targetRatio) {
+	     scale = image.get_width() / newWidth;
+	  } else {
+	     scale = image.get_height() / newHeight;
+	  }
+	  
+	  int resizeWidth = (int) image.get_width() / scale;
+	  int resizeHeight = (int) image.get_height() / scale;
+	  
+	  return image.scale_simple(resizeWidth, resizeHeight, Gdk.InterpType.BILINEAR);
+	  
 	}
 
 
