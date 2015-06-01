@@ -54,7 +54,7 @@ public class ViewImageWindow : Gtk.Window {
 
 		//Get another Icon.
 		buf1 = new Gdk.Pixbuf.from_file("/usr/local/share/applications/zoomin.png");
-		buf1 = buf1.scale_simple(32,32,Gdk.InterpType.BILINEAR);
+		buf1 = buf1.scale_simple(16,16,Gdk.InterpType.BILINEAR);
 		img = new Gtk.Image.from_pixbuf (buf1);
 		Gtk.ToolButton button3 = new Gtk.ToolButton (img, "Zoom In");
 
