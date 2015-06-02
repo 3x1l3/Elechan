@@ -44,6 +44,7 @@ public class AppWindow : Gtk.Window {
 
 	public AppWindow() {         //This is the default constructor for the new window.
 
+   
 		this.title = "4Chan Browser";         // Define the window title
 		this.set_default_size(600, 600);         // Define the intial size of the window.
 		this.destroy.connect(Gtk.main_quit);         // Clicking the close button will fully terminate the program.
@@ -378,11 +379,11 @@ public class AppWindow : Gtk.Window {
 
 
 				if (tim != 0) {
-					var url = "http://t.4cdn.org/" + this.board + "/"+ tim.to_string() + "s.jpg";
+					var url = "https://t.4cdn.org/" + this.board + "/"+ tim.to_string() + "s.jpg";
 
 
 					GLib.File file = GLib.File.new_for_uri(url);
-
+stdout.printf("%s\n", url);
 
 					file.read_async.begin (Priority.DEFAULT, null, (obj, res) => {
 						        //AppWindow this = (AppWindow)obj;
@@ -452,11 +453,9 @@ public class AppWindow : Gtk.Window {
 	   ----------------------------------------------------
 	 */
 	private void clearGrid() {
-		for (int i = 0; i <= this.row+1; i++) {
-			this.thumbsGrid.remove_row(i);
-
-			//stdout.printf("deleting row %i\n", i);
-		}
+		this.thumbsGrid.foreach((obj) => {
+		  obj.destroy();
+});
 
 		this.thumbsGrid.show_all();
 		this.column = 0;
